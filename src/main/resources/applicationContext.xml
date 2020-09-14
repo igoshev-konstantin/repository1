@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:MusicPlayer.properties"></context:property-placeholder>
+    <bean id="testBean" class="Spring.begin.bean">
+        <constructor-arg value=" just f*cking string"/>
+    </bean>
+
+    <bean id="ClassicMus" class="Spring.music.ClassicalMusic"></bean>
+    <bean id="RockMus" class="Spring.music.RockMusic"></bean>
+    <bean id="InstrumentalMus" class="Spring.music.Instrumental"></bean>
+
+    <bean id="MultiMusicPlayer" class="Spring.music.MusicPlayer">
+        <constructor-arg>
+            <list>
+                <ref bean="ClassicMus"/>
+                <ref bean="RockMus"/>
+                <ref bean="InstrumentalMus"/>
+            </list>
+        </constructor-arg>
+        <constructor-arg name="name" value="name1"/>
+        <constructor-arg name="volume" value="25"/>
+
+    </bean>
+
+    <bean id="MP" class="Spring.music.MusicPlayer">
+        <constructor-arg ref="ClassicMus"/>
+        <property name="volume" value="30"/>
+        <property name="name" value="${MusicPlayer.name}"/>
+        <property name="music" ref="RockMus"/>
+    </bean>
+
+    <bean id="MP_Classic" class="Spring.music.MusicPlayer">
+        <constructor-arg ref="ClassicMus"/>
+    </bean>
+
+    <bean id="MP_Classic2" class="Spring.music.MusicPlayer">
+        <constructor-arg ref="ClassicMus"/>
+        <constructor-arg value="Deawoo"/>
+        <constructor-arg name="volume" value="50" />
+    </bean>
+
+</beans>
