@@ -9,6 +9,7 @@ public class MusicPlayer {
     private List<Music> musicList;
     private String name = "default name";
     private byte volume = 100;
+    private int t=0;
 
     //IoC
     public MusicPlayer(List<Music> music) {
