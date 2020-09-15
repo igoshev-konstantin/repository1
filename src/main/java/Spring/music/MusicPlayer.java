@@ -36,6 +36,10 @@ public class MusicPlayer {
         System.out.println("played music: " + music.getSong() + " volume: " + volume + " name:" + name);
     }
 
+    public byte getVolume() {
+        return volume;
+    }
+
     public void playMusicFromTheList(List<Music> musicList) {
         for (int i = 0; i < musicList.size() ; i++) {
             playMusic(musicList.get(i));

@@ -10,7 +10,7 @@
         <constructor-arg value=" just f*cking string"/>
     </bean>
 
-    <bean id="ClassicMus" class="Spring.music.ClassicalMusic"></bean>
+    <bean id="ClassicMus" class="Spring.music.ClassicalMusic" init-method="InitBean" destroy-method="DestroyBean"></bean>
     <bean id="RockMus" class="Spring.music.RockMusic"></bean>
     <bean id="InstrumentalMus" class="Spring.music.Instrumental"></bean>
 
@@ -27,7 +27,7 @@
 
     </bean>
 
-    <bean id="MP" class="Spring.music.MusicPlayer">
+    <bean id="MP" class="Spring.music.MusicPlayer" scope="prototype">
         <constructor-arg ref="ClassicMus"/>
         <property name="volume" value="30"/>
         <property name="name" value="${MusicPlayer.name}"/>
