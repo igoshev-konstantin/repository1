@@ -24,3 +24,4 @@ class SingletonTest {
 class SingletonTest2 {
     public static final SingletonTest2 INSTANCE = new SingletonTest2();
 }
+
