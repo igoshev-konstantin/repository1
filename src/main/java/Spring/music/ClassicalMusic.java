@@ -3,6 +3,7 @@ package Spring.music;
 import org.springframework.beans.factory.InitializingBean;
 
 public class ClassicalMusic implements Music {
+
     @Override
     public String getSong() {
         return "Vengerian rapsody";

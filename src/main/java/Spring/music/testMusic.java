@@ -12,7 +12,9 @@ public class testMusic {
 //        test2(context);
 //        test3(context);
 //        test4(context);
-        test5_SingletonPrototype(context);
+//        test5_SingletonPrototype(context);
+//        test6_Factory(context);
+        test7_InstrumentalFactoryFromContext(context);
         context.close();
     }
 
@@ -69,6 +71,17 @@ public class testMusic {
         System.out.println(mp2 + " vol:" + mp2.getVolume());
         System.out.println("Equals: " + areEquals + " " + areEquals2);
 
+    }
+
+    private static void test6_Factory(ClassPathXmlApplicationContext context){
+        Factory factory = Factory.getFactory(null);
+        factory.createMusic(MusicTypes.ROCK);
+
+    }
+
+    private static void test7_InstrumentalFactoryFromContext(ClassPathXmlApplicationContext context){
+        MusicPlayer mp = context.getBean("MP_InstrumentalFactory",MusicPlayer.class);
+        mp.playMusic(mp.getMusic());
     }
 
 
