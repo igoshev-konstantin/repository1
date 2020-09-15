@@ -16,6 +16,18 @@ public class testMusic {
         context.close();
     }
 
+    private static void playRockMusic(ClassPathXmlApplicationContext context) {
+        Music music = context.getBean("RockMus", RockMusic.class);
+        System.out.println("play rock song: " + music.getSong());
+
+    }
+
+    private static void playClassicMusic(ClassPathXmlApplicationContext context) {
+        Music music = context.getBean("ClassicMus", ClassicalMusic.class);
+        System.out.println("play classic song: " + music.getSong());
+
+    }
+
     private static void test1(ClassPathXmlApplicationContext context) {
         //Запуск Spring. На setMusic отправили Rock в конфиге, также в конфиге у конструктора изначально указана Classic
         MusicPlayer mp = context.getBean("MP", MusicPlayer.class);
@@ -59,15 +71,5 @@ public class testMusic {
 
     }
 
-    private static void playRockMusic(ClassPathXmlApplicationContext context) {
-        Music music = context.getBean("RockMus", RockMusic.class);
-        System.out.println("play rock song: " + music.getSong());
 
-    }
-
-    private static void playClassicMusic(ClassPathXmlApplicationContext context) {
-        Music music = context.getBean("ClassicMus", ClassicalMusic.class);
-        System.out.println("play classic song: " + music.getSong());
-
-    }
 }
