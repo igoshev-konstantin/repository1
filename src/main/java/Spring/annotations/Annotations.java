@@ -2,16 +2,25 @@ package Spring.annotations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.util.Random;
 
 
 enum CarsType {TOYOTA, HONDA, NISSAN, TRUCK, UNKNOWN}
 
+enum CarsModel {CAMRY, ACCORD, TEANA, PITERBILT};
+
+@Configuration  //аннотация, что этот класс вместо конфигурационного Spring файла.
+@ComponentScan("Spring.annotations")
+//аннотация обозначает, что можно подключить возможность автоматического сканирования
 public class Annotations {
-    private static final ClassPathXmlApplicationContext context =
-            new ClassPathXmlApplicationContext("applicationContextAnnotations.xml");
+    private static final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Annotations.class);
 
     public static void main(String[] args) {
         //  newCarFactory();
@@ -31,7 +40,7 @@ public class Annotations {
 
     public static void newOrder() {
         Customer customer = context.getBean("customer", Customer.class);
-        System.out.println("Ordered car:" + customer.getOrderedCar().getCarType()+" Car:"+customer.getOrderedCar());
+        System.out.println("Ordered car:" + customer.getOrderedCar().getCarType() + " Car:" + customer.getOrderedCar());
     }
 
     public static void moveCarIntoWarehouse() {
@@ -58,9 +67,19 @@ class Car implements CarsInterface {
         return carType;
     }
 
+    @PostConstruct
+    public void doInit() {
+        System.out.println("bean init");
+    }
+
+    @PreDestroy
+    public void doDestroy() {
+        System.out.println("bean destroy");
+    }
 }
 
-@Component //Если 2 одинаковых бина, то при Autowired Spring-у будет непонятно какой из них выбрать
+@Component
+        //Если 2 одинаковых бина, то при Autowired Spring-у будет непонятно какой из них выбрать
 class Truck implements CarsInterface {
     private CarsType carType;
 
@@ -86,6 +105,7 @@ class Customer {
     public CarsInterface getOrderedCar() {
         return orderedCar;
     }
+
 }
 
 @Component
@@ -94,7 +114,7 @@ class Warehouse {
     private Customer carOwner;
 
     @Autowired
-    public Warehouse(@Qualifier("truck") CarsInterface car, Customer carOwner) {
+    public Warehouse(@Qualifier("car") CarsInterface car, Customer carOwner) {
         this.car = car;
         this.carOwner = carOwner;
     }
@@ -107,6 +127,7 @@ class Warehouse {
         return carOwner;
     }
 }
+
 @Component
 class CarsFactory {
 
@@ -121,5 +142,21 @@ class CarsFactory {
                 return new Car(CarsType.NISSAN);
         }
         return null;
+    }
+}
+
+@Component
+class Engine {
+    enum TypeEngine {TDI, RB20, JZ1}
+
+    private TypeEngine typeEngine;
+
+    public Engine() {
+        int i = (int) (Math.random() * 3);
+        this.typeEngine = TypeEngine.values()[i];
+    }
+
+    public TypeEngine getTypeEngine() {
+        return typeEngine;
     }
 }
